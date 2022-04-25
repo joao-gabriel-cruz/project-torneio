@@ -13,17 +13,18 @@ import './App.css'
 function App() {
 
   const [Teams, setTeam] = useState([
-    {}
+    { nome: '', id: uuidv4(), gols: 0, point: 0 }
   ])
 
   function Register_team() {
 
     function addTeam(event) {
+
       event.preventDefault()
 
       const name = event.target.name.value
 
-      setTeam([...Teams, { id: uuidv4(), nome: name }])
+      setTeam([...Teams, { id: uuidv4(), nome: name, gols: 0, point: 0 }])
 
       console.log(Teams)
 
@@ -90,38 +91,26 @@ function App() {
       </form>
     );
   }
-  function Continuer_torneio(){
-    return(
-     <div className=' h-screen w-full flex items-center justify-center bg-gradient-to-r from-black to-[#b00000] text-white flex-col'>
-       <div className=' h-screen w-full flex items-center justify-center'>
+  function Continuer_torneio() {
+    return (
+      <div className=' h-screen w-full flex items-center justify-center bg-gradient-to-r from-black to-[#b00000] text-white flex-col'>
+        <div className=' h-screen w-full flex items-center justify-center'>
           <div className='flex flex-col items-center justify-center bg-black w-6/12 h-80 rounded-xl'>
-             <div>
-               <h1>Fim do torneio</h1>
-             </div>
-             <div>
-               {
-                 console.log(Teams[0].id)
-               }
-               <ul >
-                  {
-                    Teams.map(item =>
-                       <li key={item.id}>{item.name}</li>
-                    )
-                  }
-               </ul>
-             </div>
+            <div>
+              <h1>Fim do torneio</h1>
+            </div>
           </div>
-       </div>
-    </div>
+        </div>
+      </div>
     );
 
-}
+  }
   function Partida() {
-    
     const [homeScoreboard, setHomeScoreboard] = useState(0)
     const [awayDcore, setAwayDcorer] = useState(0)
 
     function finalizarPartida() {
+
 
       const TeamHome = document.getElementById("home")
       const visitingTeam = document.getElementById("outside")
@@ -129,9 +118,59 @@ function App() {
       const homeValue = TeamHome.options[TeamHome.selectedIndex].value;
       const visitingValue = visitingTeam.options[visitingTeam.selectedIndex].value
 
-      setTeam([...Teams,
-      { nome: homeValue, gols: homeScoreboard }, { nome: visitingValue, gols: awayDcore }
-      ])
+
+
+
+      function addGols() {
+        Teams.map(item => {
+          if (item.id === homeValue) {
+            item.gols += homeScoreboard
+          }
+          if (item.id === visitingValue) {
+            item.gols += awayDcore
+          }
+        })
+      }
+      
+      function addPoints(){
+        if (homeScoreboard > awayDcore) {
+          Teams.map(item => {
+            if (item.id === homeValue) {
+              item.point += 3
+              console.log(item.point)
+            }
+          })
+  
+        } else if (awayDcore > homeScoreboard) {
+          Teams.map(item => {
+            if (item.id === visitingValue) {
+              item.point += 3
+              console.log(item.point)
+            }
+          })
+  
+        } else if (awayDcore === homeScoreboard) {
+          Teams.map(item => {
+            if (item.id === homeValue) {
+              item.point += 1
+              console.log(item.point)
+            }
+          })
+  
+          Teams.map(item => {
+            if (item.id === visitingValue) {
+              item.point += 1
+              console.log(item.point)
+            }
+          })
+  
+      }
+
+ 
+      }
+
+      addGols()
+      addPoints()
 
       console.log(Teams)
     }
@@ -148,7 +187,7 @@ function App() {
                   <select id='home' className='text-gray-900 h-10' name="select">
                     {
                       Teams.map(item =>
-                        <option id='' key={item.id} value={item.nome} >{item.nome}</option>
+                        <option id={item.id} key={item.id} value={item.id} >{item.nome}</option>
                       )
                     }
                   </select>
@@ -158,7 +197,7 @@ function App() {
                   <select id='outside' className='text-gray-900 h-10' name="select2">
                     {
                       Teams.map(item =>
-                        <option id='' key={item.nome} value={item.nome} >{item.nome}</option>
+                        <option id={item.id} key={item.id} value={item.id} >{item.nome}</option>
                       )
                     }
                   </select>
@@ -174,7 +213,7 @@ function App() {
             </div>
             <div className='space-y-5'>
               <div className='flex space-x-11'>
-                <p>Casa: </p>
+                <p>Casa:  </p>
                 <div className='flex items-center justify-center space-x-5 '>
                   <div className='bg-white w-10 h-10 flex items-center justify-center  rounded-xl ' >
                     <button className='text-black' onClick={() => setHomeScoreboard(homeScoreboard + 1)}><AiOutlinePlus /></button>
@@ -204,15 +243,26 @@ function App() {
             </div>
           </div>
         </div>
-        <button onClick={finalizarPartida}  className="relative group overflow-hidden px-6 h-12 rounded-full flex space-x-2 items-center bg-gradient-to-r from-black to-[#4a0000]  hover:to-[#b00000]">
-          <Link to='/encerrarCampeonato' className="relative text-sm text-white">encerrar campeonato</Link>
-          <div className="flex items-center -space-x-3 translate-x-3">
-            <div className="w-2.5 h-[1.6px] rounded bg-white origin-left scale-x-0 transition duration-300 group-hover:scale-x-100"></div>
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 stroke-white -translate-x-2 transition duration-300 group-hover:translate-x-0" fill="none" viewBox="0 0 24 24" >
-              <path d="M9 5l7 7-7 7" />
-            </svg>
-          </div>
-        </button>
+        <div>
+          <button onClick={finalizarPartida} className="relative group overflow-hidden px-6 h-12 rounded-full flex space-x-2 items-center bg-gradient-to-r from-black to-[#4a0000]  hover:to-[#b00000]">
+            <Link to='/encerrarCampeonato' className="relative text-sm text-white">encerrar campeonato</Link>
+            <div className="flex items-center -space-x-3 translate-x-3">
+              <div className="w-2.5 h-[1.6px] rounded bg-white origin-left scale-x-0 transition duration-300 group-hover:scale-x-100"></div>
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 stroke-white -translate-x-2 transition duration-300 group-hover:translate-x-0" fill="none" viewBox="0 0 24 24" >
+                <path d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </button>
+          <button onClick={finalizarPartida} className="relative group overflow-hidden px-6 h-12 rounded-full flex space-x-2 items-center bg-gradient-to-r from-black to-[#4a0000]  hover:to-[#b00000]">
+            <span className="relative text-sm text-white">encerrar partida</span>
+            <div className="flex items-center -space-x-3 translate-x-3">
+              <div className="w-2.5 h-[1.6px] rounded bg-white origin-left scale-x-0 transition duration-300 group-hover:scale-x-100"></div>
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 stroke-white -translate-x-2 transition duration-300 group-hover:translate-x-0" fill="none" viewBox="0 0 24 24" >
+                <path d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </button>
+        </div>
       </div>
     );
   }
@@ -265,7 +315,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path='/encerrarCampeonato' element={<Continuer_torneio/>}/>
+        <Route path='/encerrarCampeonato' element={<Continuer_torneio />} />
         <Route path='/cadastro' element={<Register_team />} />
         <Route path='/feedback' element={<Feedback />}></Route>
         <Route path='/partida' element={<Partida />} />
