@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { AiOutlinePlus } from "react-icons/ai";
+import { AiOutlinePlus, AiOutlineLine } from "react-icons/ai";
+import { v4 as uuidv4 } from 'uuid';
 import {
   BrowserRouter as Router,
 
@@ -11,45 +12,47 @@ import {
 import './App.css'
 function App() {
 
-  const [Team, setTeam] = useState([
-    {},
-
+  const [Teams, setTeam] = useState([
+    {}
   ])
 
   function Register_team() {
 
+    function addTeam(event) {
+      event.preventDefault()
 
+      const name = event.target.name.value
 
-    function addTeam(e) {
-      e.preventDefault()
+      setTeam([...Teams, { id: uuidv4(), nome: name }])
 
-      const name = e.target.name.value
+      console.log(Teams)
 
-      console.log(name)
-      setTeam([...Team, { nome: name }])
-      e.target.name.value = ''
-
-
+      event.target.name.value = ''
 
     }
 
     return (
-      <div className='flex items-center w-full h-screen bg-gray-800 text-gray-200'>
-        <div className=" w-96 h-80 bg-blue-800 shadow-2xl rounded-lg mx-auto text-center py-12 mt-4 rounded-x flex flex-col justify-center items-center ">
+      <div className='flex items-center w-full h-screen bg-gradient-to-r from-black to-[#b00000] text-white'>
+        <div className=" w-96 h-80 bg-black shadow-2xl rounded-lg mx-auto text-center mt-4 rounded-x flex flex-col justify-center items-center ">
           <h1 className="text-gray-200 text-center font-extrabold -mt-3 text-3xl">Cadastro de equipe</h1>
           <div className="container py-5 max-w-md mx-auto">
-            <form className=' ' onSubmit={addTeam} action="">
+            <form className=' flex flex-col justify-center items-center py-3' onSubmit={addTeam} action="">
               <div className="mb-4">
-                <input placeholder="Username" className="shadow appearance-none  rounded w-8/12 py-2 px-3 text-gray-700 " id="name" type="text" />
+                <input placeholder="Username" required="required" className="shadow appearance-none  rounded w-8/12 py-2 px-3 text-gray-700 " id="name" type="text" />
               </div>
-              <div className='space-y-4'>
+              <div className='space-y-9'>
                 <div >
-                  <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">
-                    Sign In
+                  <button type='submit' className="relative group overflow-hidden px-6 h-12 rounded-full flex space-x-2 items-center bg-gradient-to-r from-black to-[#4a0000]  hover:to-[#b00000]">
+                    <span className="relative text-sm text-white">Cadastrar time</span>
+                    <div className="flex items-center -space-x-3 translate-x-3">
+                      <div className="w-2.5 h-[1.6px] rounded bg-white origin-left scale-x-0 transition duration-300 group-hover:scale-x-100"></div>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 stroke-white -translate-x-2 transition duration-300 group-hover:translate-x-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" >
+                        <path d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
                   </button>
                 </div>
-                <div className="flex justify-around">
+                <div className="flex space-x-12">
                   <Link className='text-sky-100' to='/'>HOME</Link>
                   <Link className='text-sky-100' to='/partida'>Iniciar partida</Link>
                 </div>
@@ -60,6 +63,7 @@ function App() {
       </div>
     );
   }
+
   function Feedback() {
     return (
       <form>
@@ -86,67 +90,129 @@ function App() {
       </form>
     );
   }
+  function Continuer_torneio(){
+    return(
+     <div className=' h-screen w-full flex items-center justify-center bg-gradient-to-r from-black to-[#b00000] text-white flex-col'>
+       <div className=' h-screen w-full flex items-center justify-center'>
+          <div className='flex flex-col items-center justify-center bg-black w-6/12 h-80 rounded-xl'>
+             <div>
+               <h1>Fim do torneio</h1>
+             </div>
+             <div>
+               {
+                 console.log(Teams[0].id)
+               }
+               <ul >
+                  {
+                    Teams.map(item =>
+                       <li key={item.id}>{item.name}</li>
+                    )
+                  }
+               </ul>
+             </div>
+          </div>
+       </div>
+    </div>
+    );
 
+}
   function Partida() {
-    const [placar, setPlacar] = useState(0)
-    const [partida, setPartida] = useState(false)
+    
+    const [homeScoreboard, setHomeScoreboard] = useState(0)
+    const [awayDcore, setAwayDcorer] = useState(0)
 
- function validarPartida(){
-   
-     const TeamHome = document.getElementById("home")
-     const visitingTeam = document.getElementById("outside")
+    function finalizarPartida() {
 
-     const homeValue = TeamHome.options[TeamHome.selectedIndex].value;
-     const visitingValue = visitingTeam.options[visitingTeam.selectedIndex].value
+      const TeamHome = document.getElementById("home")
+      const visitingTeam = document.getElementById("outside")
 
+      const homeValue = TeamHome.options[TeamHome.selectedIndex].value;
+      const visitingValue = visitingTeam.options[visitingTeam.selectedIndex].value
 
-     if(homeValue && visitingValue){
-       setPartida(true)
-     }
-     
- }
+      setTeam([...Teams,
+      { nome: homeValue, gols: homeScoreboard }, { nome: visitingValue, gols: awayDcore }
+      ])
 
+      console.log(Teams)
+    }
 
     return (
-      <div className='w-full h-screen bg-gray-800 text-gray-200 flex flex-col'>
-        {
-          partida ?
-        <div>
-          <div></div>
-        </div> :
-        
+      <div className=' h-screen w-full flex items-center justify-center bg-gradient-to-r from-black to-[#b00000] text-white flex-col'>
         <div className=' h-screen w-full flex items-center justify-center  '>
-          <div className='flex flex-col items-center justify-center space-y-5 space-y-5 bg-sky-800 w-8/12 h-96 rounded-xl content-around' action="">
-            <h1 className='text-2xl'>Selecione os times</h1>
-            <div>
-              <div className='flex flex-row items-center justify-center space-x-5'>
-                <label>Selecione o time da casa ?</label>
-                <select  id='home' className='text-gray-500'  name="select">
-                  {
-                    Team.map(item =>
-                      <option   key={item.nome} value={item.nome} >{item.nome}</option>
-                    )
-                  }
-                </select>
-                <label>Selecione o time visitante ?</label>
-                <select id='outside' className='text-gray-500' name="select2">
-                  {
-                    Team.map(item =>
-                      <option  key={item.nome} value={item.nome} >{item.nome}</option>
-                    )
-                  }
-                </select>
-              </div>
-              <div>
-                <button onClick={validarPartida} className='bg-blue-600 text-white rounded-md flex justify-center hover:bg-blue-500 flex w-full'>
-                  Iniciar partida
-                </button>
+          <div className='flex flex-col items-center justify-center bg-black w-6/12 h-80 rounded-xl ' action="">
+            <div className='flex flex-col items-center justify-center space-y-14'>
+              <h1 className='text-2xl'>Selecione os times</h1>
+              <div className='flex flex-row items-center justify-center space-x-5' >
+                <div className='space-x-5'>
+                  <label>Selecione o time da casa ?</label>
+                  <select id='home' className='text-gray-900 h-10' name="select">
+                    {
+                      Teams.map(item =>
+                        <option id='' key={item.id} value={item.nome} >{item.nome}</option>
+                      )
+                    }
+                  </select>
+                </div>
+                <div className='space-x-5'>
+                  <label>Selecione o time visitante ?</label>
+                  <select id='outside' className='text-gray-900 h-10' name="select2">
+                    {
+                      Teams.map(item =>
+                        <option id='' key={item.nome} value={item.nome} >{item.nome}</option>
+                      )
+                    }
+                  </select>
+                </div>
               </div>
             </div>
           </div>
-        </div> 
-  
-  }
+        </div>
+        <div className='flex flex-col items-center justify-center bg-black w-4/12 h-80 rounded-xl '>
+          <div className=' w-6/12 flex flex-col space-x-10  justify-center items-center space-y-12'>
+            <div>
+              <p className='text-5xl'>Placar</p>
+            </div>
+            <div className='space-y-5'>
+              <div className='flex space-x-11'>
+                <p>Casa: </p>
+                <div className='flex items-center justify-center space-x-5 '>
+                  <div className='bg-white w-10 h-10 flex items-center justify-center  rounded-xl ' >
+                    <button className='text-black' onClick={() => setHomeScoreboard(homeScoreboard + 1)}><AiOutlinePlus /></button>
+                  </div>
+                  <div className='bg-white w-14 h-14 flex items-center justify-center rounded-xl'>
+                    <p className='text-black text-2xl' >{homeScoreboard}</p>
+                  </div>
+                  <div className='bg-white w-10 h-10 flex items-center justify-center rounded-xl'>
+                    <button className='text-black' onClick={() => setHomeScoreboard(homeScoreboard - 1)}><AiOutlineLine /></button>
+                  </div>
+                </div>
+              </div>
+              <div className='flex space-x-5'>
+                <p>visitante: </p>
+                <div className='flex items-center justify-center space-x-5'>
+                  <div className='bg-white w-10 h-10 flex items-center justify-center  rounded-xl'>
+                    <button className='text-black cursor-pointer' onClick={() => setAwayDcorer(awayDcore + 1)}><AiOutlinePlus /></button>
+                  </div>
+                  <div className='bg-white w-14 h-14 flex items-center justify-center rounded-xl'>
+                    <p className='text-black text-2xl'>{awayDcore}</p>
+                  </div>
+                  <div className='bg-white w-10 h-10 flex items-center justify-center  rounded-xl'>
+                    <button className='text-black' onClick={() => setAwayDcorer(awayDcore - 1)}><AiOutlineLine /></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button onClick={finalizarPartida}  className="relative group overflow-hidden px-6 h-12 rounded-full flex space-x-2 items-center bg-gradient-to-r from-black to-[#4a0000]  hover:to-[#b00000]">
+          <Link to='/encerrarCampeonato' className="relative text-sm text-white">encerrar campeonato</Link>
+          <div className="flex items-center -space-x-3 translate-x-3">
+            <div className="w-2.5 h-[1.6px] rounded bg-white origin-left scale-x-0 transition duration-300 group-hover:scale-x-100"></div>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 stroke-white -translate-x-2 transition duration-300 group-hover:translate-x-0" fill="none" viewBox="0 0 24 24" >
+              <path d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
+        </button>
       </div>
     );
   }
@@ -194,15 +260,12 @@ function App() {
         </div>
       </div>
     );
-
   }
-
-
-
 
   return (
     <Router>
       <Routes>
+        <Route path='/encerrarCampeonato' element={<Continuer_torneio/>}/>
         <Route path='/cadastro' element={<Register_team />} />
         <Route path='/feedback' element={<Feedback />}></Route>
         <Route path='/partida' element={<Partida />} />
