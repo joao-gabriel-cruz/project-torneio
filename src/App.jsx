@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AiOutlinePlus } from "react-icons/ai";
 import {
   BrowserRouter as Router,
@@ -12,7 +12,9 @@ import './App.css'
 function App() {
 
   const [Team, setTeam] = useState([
-    {}
+    { nome: 'fasdfa' },
+    { nome: 'fasdfa' },
+    { nome: 'fasdfa' }
   ])
 
   function Register_team() {
@@ -56,33 +58,63 @@ function App() {
 
 
   function Partida() {
-    const [count, setCount] = useState(0)
+    const [count, setCount] = useState([
+      { nome: 'fasdfa' },
+      { nome: 'fasdfa' },
+      { nome: 'fasdfa' }
+    ])
+
+    useEffect(() => {
+      setCount([
+        { nome: 'fasdfa' },
+        { nome: 'fasdfa' },
+        { nome: 'fasdfa' }
+      ])
+
+      console.log(count)
+
+    }, [])
 
     function addTeam(e) {
+
+      e.preventDefault()
+
       const time1 = e.target.team1.value
+      const testTime = Team.filter(item => (time1 == item.nome))
 
 
     }
-    console.log(Team.nome)
+
     return (
       <div className='w-full h-screen bg-gray-800 text-gray-200 flex '>
         <div className='w-80  h-80 flex items-center justify-center flex-col '>
           <form className='w-80  h-80 flex items-center justify-center flex-col space-y-4' action="" onSubmit={addTeam}>
             <label>digite o nome do time 1 ?</label>
-            <input className=" border rounded  px-4 text-lg " type="text" id='team1' placeholder="Time" />
+
+
             <button className='bg-white text-gray-800 w-9/12 border rounded ' type='submit'>envia</button>
           </form>
         </div>
+
+        <ul>
+          {
+            count.map((item) => {
+              <p>{item.nome}</p>
+            })
+          }
+        </ul>
       </div>
     );
   }
 
   function Home() {
     return (
-      <header className="h-14 w-full">
-        <h1>bem vindo</h1>
-        <Link to="/cadastro">cadastrar time</Link>
-      </header>
+      <div className='w-full h-screen bg-gray-800 text-gray-200 flex '>
+        <header className="h-14 w-full flex flex-col justify-center">
+          <h1>bem vindo</h1>
+          <Link className='text-sky-500 ' to="/cadastro">cadastrar time</Link>
+        </header>
+      </div>
     );
 
   }
@@ -99,11 +131,6 @@ function App() {
       </Routes>
     </Router>
   );
-
-
-
-
-
 
 
 }
