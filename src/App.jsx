@@ -22,9 +22,9 @@ function App() {
   function Register_team() {
 
     function addTeam(event) {
-
       event.preventDefault()
 
+      const name = event.target.name.value
 
       setTeam([...Teams, { id: uuidv4(), nome: name, gols: 0, point: 0 }])
 
