@@ -14,7 +14,7 @@ import './App.css'
 function App() {
 
   const [Teams, setTeam] = useState([
-    { nome: '', id: 1, gols: 0, point: 0 }
+    { nome: '', id: 1, gols: -1, point: 0 }
   ])
 
 
@@ -26,7 +26,14 @@ function App() {
 
       const name = event.target.name.value
 
-      setTeam([...Teams, { id: uuidv4(), nome: name, gols: 0, point: 0 }])
+      Teams.map(item => {
+        if (item.nome != name) {
+          setTeam([...Teams, { id: uuidv4(), nome: name, gols: 0, point: 0 }])
+        }
+        else {
+          alert('Nome já existente')
+        }
+      })
 
       console.log(Teams)
 
@@ -66,7 +73,6 @@ function App() {
       </div>
     );
   }
-
   function Feedback() {
     return (
       <form>
@@ -93,7 +99,6 @@ function App() {
       </form>
     );
   }
-
   function Continuer_torneio() {
     const ListaFinal = Teams.sort((a, b) => {
       if (a.point > b.point) {
@@ -104,8 +109,6 @@ function App() {
         return 0
       }
     })
-
-
 
     return (
       <div className=' h-screen w-full flex items-center justify-center bg-gradient-to-r from-black to-[#b00000] text-white flex-col'>
@@ -142,8 +145,15 @@ function App() {
       const homeValue = TeamHome.options[TeamHome.selectedIndex].value;
       const visitingValue = visitingTeam.options[visitingTeam.selectedIndex].value
 
+      function validacaoDePartida() {
+        if (homeValue === visitingValue) {
+          return alert('Times duplicados')
+        }
+        if (homeScoreboard || awayDcore < 0) {
+          return alert('Placar negativo')
+        }
 
-
+      }
 
       function addGols() {
         Teams.map(item => {
@@ -190,6 +200,8 @@ function App() {
         }
       }
 
+
+      validacaoDePartida()
       addGols()
       addPoints()
 
@@ -287,7 +299,6 @@ function App() {
       </div>
     );
   }
-
   function Home() {
     return (
 
