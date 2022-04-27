@@ -27,22 +27,18 @@ function App() {
       const name = event.target.name.value
 
       Teams.map(item => {
-        if (item.nome != name) {
-          setTeam([...Teams, { id: uuidv4(), nome: name, gols: 0, point: 0 }])
+        if (item.nome !== name) {
+          return setTeam([...Teams, { id: uuidv4(), nome: name, gols: 0, point: 0 }])
         }
         else {
-          alert('Nome já existente')
+          return alert('Nome já existente')
         }
       })
-
-      console.log(Teams)
-
       event.target.name.value = ''
-
     }
-
+    console.log(Teams)
     return (
-      <div className='flex items-center w-full h-screen bg-gradient-to-r from-black to-[#b00000] text-white'>
+      <div className='flex items-center w-full h-screen  bg-gray-800 text-white'>
         <div className=" w-96 h-80 bg-black shadow-2xl rounded-lg mx-auto text-center mt-4 rounded-x flex flex-col justify-center items-center ">
           <h1 className="text-gray-200 text-center font-extrabold -mt-3 text-3xl">Cadastro de equipe</h1>
           <div className="container py-5 max-w-md mx-auto">
@@ -50,9 +46,9 @@ function App() {
               <div className="mb-4">
                 <input placeholder="Username" required="required" className="shadow appearance-none  rounded w-8/12 py-2 px-3 text-gray-700 " id="name" type="text" />
               </div>
-              <div className='space-y-9'>
+              <div className='space-y-10'>
                 <div >
-                  <button type='submit' className="relative group overflow-hidden px-6 h-12 rounded-full flex space-x-2 items-center bg-gradient-to-r from-black to-[#4a0000]  hover:to-[#b00000]">
+                  <button type='submit' className="relative group overflow-hidden px-6 h-12 rounded-full flex space-x-2 items-center bg-gradient-to-r from-black to-[#2a8991]  hover:to-[#105866]">
                     <span className="relative text-sm text-white">Cadastrar time</span>
                     <div className="flex items-center -space-x-3 translate-x-3">
                       <div className="w-2.5 h-[1.6px] rounded bg-white origin-left scale-x-0 transition duration-300 group-hover:scale-x-100"></div>
@@ -64,7 +60,8 @@ function App() {
                 </div>
                 <div className="flex space-x-12">
                   <Link className='text-sky-100' to='/'>HOME</Link>
-                  <Link className='text-sky-100' to='/partida'>Iniciar partida</Link>
+                  <p>|</p>
+                  <Link className='text-sky-100' to='/partida'>Iniciar</Link>
                 </div>
               </div>
             </form>
@@ -75,28 +72,52 @@ function App() {
   }
   function Feedback() {
     return (
-      <form>
-        <div className=" bg-gray-800 min-h-screen md:px-20 pt-6 ">
-          <div className="bg-slate-300 rounded-md px-6 py-10 max-w-2xl mx-auto">
-            <h1 className="text-center text-2xl font-bold text-gray-500 mb-10">Feedback</h1>
-            <div className="space-y-4">
-              <div>
-                <label for="description" className="block mb-2 text-lg font-serif">Feedback</label>
-                <textarea id="description" cols="30" rows="10" placeholder="whrite here.." className="w-full font-serif  p-4 text-gray-600 bg-indigo-50 outline-none rounded-md"></textarea>
+      <section>
+        <div className="bg-gray-800 text-white py-20">
+          <div className="container mx-auto flex flex-col md:flex-row my-6 md:my-24">
+            <div className="flex flex-col w-full lg:w-1/3 p-8">
+              <p className="ml-6 text-[#00ffff] text-lg uppercase tracking-loose">Feedback</p>
+              <p className="text-3xl md:text-5xl my-4 leading-relaxed md:leading-snug">Deixe-nos um comentário!</p>
+
+            </div>
+            <div className="flex flex-col w-full lg:w-2/3 justify-center">
+              <div className="container w-full px-4">
+                <div className="flex flex-wrap justify-center">
+                  <div className="w-full lg:w-6/12 px-4">
+                    <div
+                      className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-white">
+                      <div className="flex-auto p-5 lg:p-10">
+                        <h4 className="text-2xl mb-4 text-black font-semibold">Tem alguma sugestão ?</h4>
+                        <form id="feedbackForm" action="" method="">
+                          <div className="relative w-full mb-3">
+                            <label className="block uppercase text-gray-700 text-xs font-bold mb-2"
+                              for="email">Email</label><input type="email" name="email" id="email" className="border-0 px-3 py-3 rounded text-sm shadow w-full
+                        bg-gray-300 placeholder-black text-gray-800 outline-none focus:bg-gray-400" placeholder=" "
+                                required />
+                          </div>
+                          <div className="relative w-full mb-3">
+                            <label className="block uppercase text-gray-700 text-xs font-bold mb-2"
+                              for="message">Messagem</label><textarea maxlength="300" name="feedback" id="feedback" rows="4"
+                                cols="80"
+                                className="border-0 px-3 py-3 bg-gray-300 placeholder-black text-gray-800 rounded text-sm shadow focus:outline-none w-full"
+                                placeholder="" required></textarea>
+                          </div>
+                          <div className="text-center mt-6">
+                            <button id="feedbackBtn"
+                              className="bg-[#54d2de] hover:bg-[#2a8991] hover:text-white ease-in duration-300 text-black text-center mx-auto active:bg-yellow-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                              type="submit" >Enviar
+                            </button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div>
-                <label for="name" className="text-lx font-serif">Name:</label>
-                <input type="text" placeholder="name" id="name" className="ml-2 outline-none py-1 px-2 text-md border-2 rounded-md" />
-              </div>
-              <div>
-                <label for="email" className="text-lx font-serif">Email:</label>
-                <input type="text" placeholder="E-mail" id="email" className="ml-2 outline-none py-1 px-2 text-md border-2 rounded-md" />
-              </div>
-              <button className=" px-6 py-2 mx-auto block rounded-md text-lg font-semibold text-indigo-100 bg-indigo-600  ">ADD POST</button>
             </div>
           </div>
         </div>
-      </form>
+      </section>
     );
   }
   function Continuer_torneio() {
@@ -111,7 +132,7 @@ function App() {
     })
 
     return (
-      <div className=' h-screen w-full flex items-center justify-center bg-gradient-to-r from-black to-[#b00000] text-white flex-col'>
+      <div className=' h-screen w-full flex items-center justify-center bg-gray-800 text-white flex-col'>
         <div className=' h-screen w-full flex items-center justify-center'>
           <div className='flex flex-col items-center justify-center bg-black w-6/12 h-80 rounded-xl'>
             <div>
@@ -146,13 +167,7 @@ function App() {
       const visitingValue = visitingTeam.options[visitingTeam.selectedIndex].value
 
       function validacaoDePartida() {
-        if (homeValue === visitingValue) {
-          return alert('Times duplicados')
-        }
-        if (homeScoreboard || awayDcore < 0) {
-          return alert('Placar negativo')
-        }
-
+            
       }
 
       function addGols() {
@@ -209,12 +224,12 @@ function App() {
     }
 
     return (
-      <div className=' h-screen w-full flex items-center justify-center bg-gradient-to-r from-black to-[#b00000] text-white flex-col'>
-        <div className=' h-screen w-full flex items-center justify-center  '>
-          <div className='flex flex-col items-center justify-center bg-black w-6/12 h-80 rounded-xl ' action="">
-            <div className='flex flex-col items-center justify-center space-y-14'>
-              <h1 className='text-2xl'>Selecione os times</h1>
-              <div className='flex flex-row items-center justify-center space-x-5' >
+      <div className=' h-screen w-full flex items-center justify-center bg-gray-800 text-white flex-col space-y-12 '>
+        <div className='flex flex-row w-full justify-center space-x-5'>
+          <div className='flex flex-col items-center justify-center  ' action="">
+            <div className=' flex flex-col w-[40rem] flex flex-col h-[20rem] rounded-xl space-x-10  space-y-12  bg-black text-white justify-center items-center '>
+              <h1 className='text-5xl'>Selecione os times</h1>
+              <div className='flex flex-col items-center justify-center space-y-6' >
                 <div className='space-x-5'>
                   <label>Selecione o time da casa ?</label>
                   <select id='home' className='text-gray-900 h-10' name="select">
@@ -238,9 +253,9 @@ function App() {
               </div>
             </div>
           </div>
-        </div>
-        <div className='flex flex-col items-center justify-center bg-black w-4/12 h-80 rounded-xl '>
-          <div className=' w-6/12 flex flex-col space-x-10  justify-center items-center space-y-12'>
+      
+        <div className='flex flex-col items-center justify-center bg-black text-white w-[40rem] h-[20rem] rounded-xl '>
+          <div className=' w-[40rem] flex flex-col space-x-10  justify-center items-center space-y-12'>
             <div>
               <p className='text-5xl'>Placar</p>
             </div>
@@ -249,13 +264,13 @@ function App() {
                 <p>Casa:  </p>
                 <div className='flex items-center justify-center space-x-5 '>
                   <div className='bg-white w-10 h-10 flex items-center justify-center  rounded-xl ' >
-                    <button className='text-black' onClick={() => setHomeScoreboard(homeScoreboard + 1)}><AiOutlinePlus /></button>
+                    <button className='text-white bg-[#105866] p-3 rounded-xl  ' onClick={() => setHomeScoreboard(homeScoreboard + 1)}><AiOutlinePlus /></button>
                   </div>
                   <div className='bg-white w-14 h-14 flex items-center justify-center rounded-xl'>
                     <p className='text-black text-2xl' >{homeScoreboard}</p>
                   </div>
                   <div className='bg-white w-10 h-10 flex items-center justify-center rounded-xl'>
-                    <button className='text-black' onClick={() => setHomeScoreboard(homeScoreboard - 1)}><AiOutlineLine /></button>
+                    <button className='text-white bg-[#105866] p-3 rounded-xl' onClick={() => setHomeScoreboard(homeScoreboard - 1)}><AiOutlineLine /></button>
                   </div>
                 </div>
               </div>
@@ -263,21 +278,22 @@ function App() {
                 <p>visitante: </p>
                 <div className='flex items-center justify-center space-x-5'>
                   <div className='bg-white w-10 h-10 flex items-center justify-center  rounded-xl'>
-                    <button className='text-black cursor-pointer' onClick={() => setAwayDcorer(awayDcore + 1)}><AiOutlinePlus /></button>
+                    <button className='text-white cursor-pointer bg-[#105866] p-3 rounded-xl' onClick={() => setAwayDcorer(awayDcore + 1)}><AiOutlinePlus /></button>
                   </div>
                   <div className='bg-white w-14 h-14 flex items-center justify-center rounded-xl'>
-                    <p className='text-black text-2xl'>{awayDcore}</p>
+                    <p className='text-black text-2xl '>{awayDcore}</p>
                   </div>
                   <div className='bg-white w-10 h-10 flex items-center justify-center  rounded-xl'>
-                    <button className='text-black' onClick={() => setAwayDcorer(awayDcore - 1)}><AiOutlineLine /></button>
+                    <button className='text-white bg-[#105866] p-3 rounded-xl' onClick={() => setAwayDcorer(awayDcore - 1)}><AiOutlineLine /></button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div>
-          <button onClick={finalizarPartida} className="relative group overflow-hidden px-6 h-12 rounded-full flex space-x-2 items-center bg-gradient-to-r from-black to-[#4a0000]  hover:to-[#b00000]">
+        </div>
+        <div className='flex space-x-20'>
+          <button onClick={finalizarPartida} className="relative group overflow-hidden px-[2rem] h-12 rounded-full flex space-x-2 items-center bg-black text-white">
             <Link to='/encerrarCampeonato' className="relative text-sm text-white">encerrar campeonato</Link>
             <div className="flex items-center -space-x-3 translate-x-3">
               <div className="w-2.5 h-[1.6px] rounded bg-white origin-left scale-x-0 transition duration-300 group-hover:scale-x-100"></div>
@@ -286,7 +302,8 @@ function App() {
               </svg>
             </div>
           </button>
-          <button onClick={finalizarPartida} className="relative group overflow-hidden px-6 h-12 rounded-full flex space-x-2 items-center bg-gradient-to-r from-black to-[#4a0000]  hover:to-[#b00000]">
+        
+          <button onClick={finalizarPartida} className="relative group overflow-hidden px-[3.3rem] h-12 rounded-full  flex  items-center bg-black text-white">
             <span className="relative text-sm text-white">encerrar partida</span>
             <div className="flex items-center -space-x-3 translate-x-3">
               <div className="w-2.5 h-[1.6px] rounded bg-white origin-left scale-x-0 transition duration-300 group-hover:scale-x-100"></div>
@@ -302,45 +319,52 @@ function App() {
   function Home() {
     return (
 
-      <div className="h-screen flex flex-col gap-5 items-center justify-center bg-gray-800 font-bold text-gray-200">
-        <header>
-          <h1>Bem Vindo</h1>
+      <div className="h-screen flex space-y-12 flex-col gap-5 items-center justify-center bg-gray-800 font-bold text-gray-200">
+
+        <header className=''>
+          <div>
+            <h1>Bem Vindo</h1>
+          </div>
         </header>
-        <div className="border-gray-300 border-2 rounded-xl w-[30rem] py-7 px-5">
-          <div className="grid grid-cols-6 gap-3">
-            <div className="col-span-2">
-              <img src="https://i.pinimg.com/236x/d4/99/88/d499882336bc1e171786b71967051d3b.jpg" />
+
+        <div className='flex space-x-5'>
+          <div className="border-gray-300 border-2 rounded-xl w-[25rem] py-7 px-5">
+            <div className="grid grid-cols-6 gap-3">
+              <div className="col-span-2">
+                <img src="https://i.pinimg.com/236x/d4/99/88/d499882336bc1e171786b71967051d3b.jpg" />
+              </div>
+              <div className=" col-span-4 text-center">
+                <p className="text-gray-500 font-bold"> Cadastre os times  </p>
+                <p className="text-gray-300 mt-4"> cadastre os times e administre seus campenatos com maior eficiência  </p>
+                <Link className='text-sky-400 text-end' to='/cadastro'>Cadastrar</Link>
+              </div>
             </div>
-            <div className="col-span-4 text-center">
-              <p className="text-gray-500 font-bold"> Cadastre os times  </p>
-              <p className="text-gray-300 mt-4"> cadastre os times e administre seus campenatos com maior eficiência  </p>
-              <Link className='text-sky-400 text-end' to='/cadastro'>Cadastrar</Link>
+          </div>
+          <div className="border-gray-300 border-2 rounded-xl w-[25rem] py-8 px-5">
+            <div className="grid grid-cols-6 gap-3 ">
+              <div className="col-span-4 ">
+                <p className="text-gray-500 font-bold"> Deixe seu comentario </p>
+                <p className="text-gray-300 mt-4"> Nos ajudade a melhorar cada vez mais, sua opnião é de grande importancia </p>
+                <Link className='text-sky-400' to='/feedback'>Feedback</Link>
+              </div>
+              <div className="col-span-2">
+                <img src="https://events.duolingo.com/images/why_impact.svg" />
+              </div>
+            </div>
+          </div>
+          <div className="border-gray-300 border-2 rounded-xl w-[25rem] py-7 px-5">
+            <div className="grid grid-cols-6 gap-3">
+              <div className="col-span-2">
+                <img src="https://events.duolingo.com/images/why_access.svg" />
+              </div>
+              <div className="col-span-4 text-center">
+                <p className="text-gray-500 font-bold"> segurança e confiabilidade   </p>
+                <p className="text-gray-300 mt-4"> A segurança que só a mesma equipe que desenvolveu minecraft 2 poderia oferecer</p>
+              </div>
             </div>
           </div>
         </div>
-        <div className="border-gray-300 border-2 rounded-xl w-[30rem] py-8 px-5">
-          <div className="grid grid-cols-6 gap-3 ">
-            <div className="col-span-4 ">
-              <p className="text-gray-500 font-bold"> Deixe seu comentario </p>
-              <p className="text-gray-300 mt-4"> Nos ajudade a melhorar cada vez mais, sua opnião é de grande importancia </p>
-              <Link className='text-sky-400' to='/feedback'>Feedback</Link>
-            </div>
-            <div className="col-span-2">
-              <img src="https://events.duolingo.com/images/why_impact.svg" />
-            </div>
-          </div>
-        </div>
-        <div className="border-gray-300 border-2 rounded-xl w-[30rem] py-7 px-5">
-          <div className="grid grid-cols-6 gap-3">
-            <div className="col-span-2">
-              <img src="https://events.duolingo.com/images/why_access.svg" />
-            </div>
-            <div className="col-span-4 text-center">
-              <p className="text-gray-500 font-bold"> segurança e confiabilidade   </p>
-              <p className="text-gray-300 mt-4"> A segurança que só a mesma equipe que desenvolveu minecraft 2 poderia oferecer</p>
-            </div>
-          </div>
-        </div>
+
       </div>
     );
   }
