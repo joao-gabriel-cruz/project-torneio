@@ -31,7 +31,7 @@ function App() {
           setTeam([...Teams, { id: uuidv4(), nome: name, gols: 0, point: 0 }])
         }
         else {
-          alert('Nome já existente')
+          return alert('Nome já existente')
         }
       })
 
@@ -92,7 +92,9 @@ function App() {
                 <label for="email" className="text-lx font-serif">Email:</label>
                 <input type="text" placeholder="E-mail" id="email" className="ml-2 outline-none py-1 px-2 text-md border-2 rounded-md" />
               </div>
-              <button className=" px-6 py-2 mx-auto block rounded-md text-lg font-semibold text-indigo-100 bg-indigo-600  ">ADD POST</button>
+              <div>
+                <button className=" px-6 py-2 mx-auto block rounded-md text-lg font-semibold text-indigo-100 bg-indigo-600  ">ADD POST</button>
+              </div>it
             </div>
           </div>
         </div>
