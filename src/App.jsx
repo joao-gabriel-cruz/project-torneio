@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { AiOutlinePlus, AiOutlineLine } from "react-icons/ai";
 import { v4 as uuidv4 } from 'uuid';
@@ -13,7 +15,9 @@ import {
 import './App.css'
 function App() {
 
-  const [Teams, setTeam] = useState([{}])
+  const [Teams, setTeam] = useState([{
+
+  }])
 
   function Home() {
     return (
@@ -57,7 +61,7 @@ function App() {
                 <img src="https://events.duolingo.com/images/why_access.svg" />
               </div>
               <div className="col-span-4 text-center">
-                <p className="text-gray-500 font-bold"> Segurança e confiabilidade   </p>
+                <p className="text-gray-500 font-bold"> egurança e confiabilidade   </p>
                 <p className="text-gray-300 mt-4"> A segurança que só a mesma equipe que desenvolveu minecraft 2 poderia oferecer</p>
               </div>
             </div>
@@ -74,14 +78,30 @@ function App() {
       event.preventDefault()
       const name = event.target.name.value;
 
+      console.log(name)
+
       function validadorDeNome() {
-        Teams.map(item => {
-          if (item.nome === name) {
-            throw alert('você colocou um time com o nome igual')
-          } else {
-            setTeam([...Teams, { id: uuidv4(), nome: name, gols: 0, point: 0 }])
-          }
-        })
+
+        const teamExist = Teams.find((item) => name === item.nome)
+
+        if (!!teamExist) {
+          return toast('Este time já existe ecolha outro', {
+            position: toast.POSITION.BOTTOM_CENTER
+          })
+        }
+        setTeam([...Teams, { id: uuidv4(), nome: name, gols: 0, point: 0 }])
+
+        // Teams.map(item => {
+        //   if (item.nome === name) {
+        //     setTeam([...Teams])
+        //     return alert('Este time já existe ecolha outro')
+
+        //   } else {
+
+        //     console.log(Teams)
+        //     setTeam([...Teams, { id: uuidv4(), nome: name, gols: 0, point: 0 }])
+        //   }
+        // })
       }
       validadorDeNome()
 
@@ -198,7 +218,6 @@ function App() {
         } else {
           return 0
         }
-
       }
     })
 
@@ -398,7 +417,6 @@ function App() {
     );
   }
 
-
   return (
     <Router>
       <Routes>
@@ -408,6 +426,8 @@ function App() {
         <Route path='/partida' element={<Partida />} />
         <Route path='/' element={<Home />} />
       </Routes>
+      <ToastContainer />
+
     </Router>
   );
 }
