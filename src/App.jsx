@@ -15,9 +15,11 @@ import {
 import './App.css'
 function App() {
 
+
   const [Teams, setTeam] = useState([{
 
   }])
+
 
   function Home() {
     return (
@@ -176,7 +178,7 @@ function App() {
                           </div>
                           <div className="text-center mt-6">
                             <button id="feedbackBtn"
-                              className="bg-[#54d2de] hover:bg-[#2a8991] hover:text-white ease-in duration-300 text-black text-center mx-auto active:bg-yellow-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                              className="bg-[#54d2de] hover:bg-[#2a8991]  hover:text-white ease-in duration-300 text-black text-center mx-auto active:bg-yellow-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                               type="submit" >Enviar
                             </button>
                           </div>
@@ -224,18 +226,29 @@ function App() {
     return (
       <div className=' h-screen w-full flex items-center justify-center bg-gray-800 text-white flex-col'>
         <div className=' h-screen w-full flex items-center justify-center'>
-          <div className='flex flex-col items-center justify-center bg-black w-6/12 h-80 rounded-xl'>
-            <div>
-              <h1>Fim do torneio</h1>
+          <div className='flex flex-col items-center justify-center bg-black p-12 rounded-xl space-y-14'>
+            <div className='space-y-7 flex flex-col text-center'>
+              <div className='space-y-7'>
+                <div>
+                  <h1 className='text-5xl text-[#00ffff]'>Fim do torneio</h1>
+                </div>
+              </div>
+              <ol className='list-decimal ml-[3rem]' >
+                <div className='flex space-x-14'>
+                  {
+                    ListaFinal.map(item =>
+                      <div>
+                        <li className='text-xl text-left' key={item.id}>Time: {item.nome} <br /> Pontos :{item.point} <br /> Gols: {item.gols}</li>
+                      </div>
+                    )
+                  }
+                </div>
+              </ol>
             </div>
             <div>
-              <ol className='list-decimal' >
-                {
-                  ListaFinal.map(item =>
-                    <li key={item.id}>{item.nome} pont: {item.point} saldo de gols: {item.gols}</li>
-                  )
-                }
-              </ol>
+              <button id="feedbackBtn" className="bg-[#54d2de] hover:bg-[#2a8991] hover:text-white ease-in duration-300  text-black text-center px-12 py-3 rounded-3xl ">
+                <Link to='/'>Home</Link>
+              </button>
             </div>
           </div>
         </div>
@@ -332,20 +345,20 @@ function App() {
               <div className='flex flex-col items-center justify-center space-y-6' >
                 <div className='space-x-5'>
                   <label>Selecione o time da casa ?</label>
-                  <select id='home' className='text-gray-900 h-10' name="select">
+                  <select id='home' className='text-gray-900 h-10 rounded-xl' name="select">
                     {
                       Teams.map(item =>
-                        <option id={item.id} key={item.id} value={item.id} >{item.nome}</option>
+                        <option className='rounded-xl' id={item.id} key={item.id} value={item.id} >{item.nome}</option>
                       )
                     }
                   </select>
                 </div>
                 <div className='space-x-5'>
                   <label>Selecione o time visitante ?</label>
-                  <select id='outside' className='text-gray-900 h-10' name="select2">
+                  <select id='outside' className='text-gray-900 h-10 rounded-xl' name="select2">
                     {
                       Teams.map(item =>
-                        <option id={item.id} key={item.id} value={item.id} >{item.nome}</option>
+                        <option className='rounded-xl' id={item.id} key={item.id} value={item.id} >{item.nome}</option>
                       )
                     }
                   </select>
@@ -364,13 +377,13 @@ function App() {
                   <p>Casa:  </p>
                   <div className='flex items-center justify-center space-x-5 '>
                     <div className='bg-white w-10 h-10 flex items-center justify-center  rounded-xl ' >
-                      <button className='text-white bg-[#105866] p-3 rounded-xl  ' onClick={() => setHomeScoreboard(homeScoreboard + 1)}><AiOutlinePlus /></button>
+                      <button className='text-white bg-[#105866] hover:bg-[#54d2de] p-3 rounded-xl  ' onClick={() => setHomeScoreboard(homeScoreboard + 1)}><AiOutlinePlus /></button>
                     </div>
                     <div className='bg-white w-14 h-14 flex items-center justify-center rounded-xl'>
                       <p className='text-black text-2xl' >{homeScoreboard}</p>
                     </div>
-                    <div className='bg-white w-10 h-10 flex items-center justify-center rounded-xl'>
-                      <button className='text-white bg-[#105866] p-3 rounded-xl' onClick={() => setHomeScoreboard(homeScoreboard - 1)}><AiOutlineLine /></button>
+                    <div className='bg-white w-10 h-10 flex items-center hover:bg-[#54d2de] justify-center rounded-xl'>
+                      <button className='text-white bg-[#105866] hover:bg-[#54d2de] p-3 rounded-xl ' onClick={() => setHomeScoreboard(homeScoreboard - 1)}><AiOutlineLine /></button>
                     </div>
                   </div>
                 </div>
@@ -378,13 +391,13 @@ function App() {
                   <p>visitante: </p>
                   <div className='flex items-center justify-center space-x-5'>
                     <div className='bg-white w-10 h-10 flex items-center justify-center  rounded-xl'>
-                      <button className='text-white cursor-pointer bg-[#105866] p-3 rounded-xl' onClick={() => setAwayDcorer(awayDcore + 1)}><AiOutlinePlus /></button>
+                      <button className='text-white bg-[#105866] hover:bg-[#54d2de] p-3 rounded-xl ' onClick={() => setAwayDcorer(awayDcore + 1)}><AiOutlinePlus /></button>
                     </div>
                     <div className='bg-white w-14 h-14 flex items-center justify-center rounded-xl'>
                       <p className='text-black text-2xl '>{awayDcore}</p>
                     </div>
-                    <div className='bg-white w-10 h-10 flex items-center justify-center  rounded-xl'>
-                      <button className='text-white bg-[#105866] p-3 rounded-xl' onClick={() => setAwayDcorer(awayDcore - 1)}><AiOutlineLine /></button>
+                    <div className='bg-white w-10 h-10 flex items-center  hover:bg-[#54d2de]justify-center  rounded-xl'>
+                      <button className='text-white bg-[#105866] hover:bg-[#54d2de] p-3 rounded-xl ' onClick={() => setAwayDcorer(awayDcore - 1)}><AiOutlineLine /></button>
                     </div>
                   </div>
                 </div>
